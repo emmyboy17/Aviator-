@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Cheat Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: #000;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border-radius: 50%;
+        }
+        
+        .brand-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        h1 {
+            font-size: 22px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .controls {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 12px;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: white;
+            font-size: 15px;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+        
+        button.primary {
+            width: 100%;
+            padding: 14px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        button.primary:hover {
+            background: #c0392b;
+        }
+        
+        button.primary:active {
+            transform: translateY(1px);
+        }
+        
+        .results {
+            background: #111;
+            border-radius: 12px;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+        
+        .results-header {
+            padding: 15px 20px;
+            background: #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .results-header h3 {
+            color: #e74c3c;
+            font-size: 16px;
+        }
+        
+        .results-body {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .result-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-info {
+            flex: 1;
+        }
+        
+        .result-company {
+            font-weight: 500;
+            color: #e74c3c;
+        }
+        
+        .result-time {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .result-odd {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Modal Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .modal-content {
+            background: #111;
+            padding: 30px;
+            border-radius: 12px;
+            width: 320px;
+            text-align: center;
+            border: 1px solid #333;
+            box-shadow: 0 0 30px rgba(231, 76, 60, 0.4);
+            animation: scaleIn 0.3s ease-out;
+        }
+        
+        .modal h3 {
+            color: #e74c3c;
+            margin-top: 0;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .modal p {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .predicted-odd {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2ecc71;
+            margin: 15px 0;
+            padding: 15px;
+            background: #222;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        
+        .modal-btn:hover {
+            background: #c0392b;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <div class="brand-name">SPRIBE</div>
+            </div>
+            <h1>Aviator Cheat Dashboard</h1>
+        </header>
+        
+        <div class="controls">
+            <div class="form-group">
+                <label for="company">Select Company</label>
+                <select id="company">
+                    <option value="sporty">Sporty Bet</option>
+                    <option value="betking">BetKing</option>
+                    <option value="bet9ja">Bet9ja</option>
+                    <option value="nairabet">Naira Bet</option>
+                    <option value="betway">Betway</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="time">Game Time (HH:MM)</label>
+                <input type="time" id="time" value="12:00">
+            </div>
+            
+            <button id="generateBtn" class="primary">🎯 START GENERATE FAKE ODD</button>
+        </div>
+        
+        <div class="results">
+            <div class="results-header">
+                <h3>Generated Odds History</h3>
+            </div>
+            <div class="results-body" id="resultsList">
+                <div class="empty-state">
+                    No odds generated yet. Select a company and time, then click "START GENERATE FAKE ODD".
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Prediction Modal -->
+    <div class="modal" id="predictionModal">
+        <div class="modal-content">
+            <h3>🎯 PREDICTION READY</h3>
+            <p>The system has analyzed patterns and generated the predicted odd:</p>
+            <div class="predicted-odd" id="predictedOdd">2.45x</div>
+            <p>This odd will be generated at your selected time.</p>
+            <button class="modal-btn" onclick="closeModal()">Got it</button>
+        </div>
+    </div>
+
+    <script>
+        // Store generated results
+        let results = [];
+        
+        // Get elements
+        const companySelect = document.getElementById('company');
+        const timeInput = document.getElementById('time');
+        const generateBtn = document.getElementById('generateBtn');
+        const resultsList = document.getElementById('resultsList');
+        const predictionModal = document.getElementById('predictionModal');
+        const predictedOdd = document.getElementById('predictedOdd');
+        
+        // Load results from localStorage
+        function loadResults() {
+            const saved = localStorage.getItem('aviatorResults');
+            if (saved) {
+                results = JSON.parse(saved);
+                renderResults();
+            }
+        }
+        
+        // Save results to localStorage
+        function saveResults() {
+            localStorage.setItem('aviatorResults', JSON.stringify(results));
+        }
+        
+        // Render results list
+        function renderResults() {
+            if (results.length === 0) {
+                resultsList.innerHTML = `
+                    <div class="empty-state">
+                        No odds generated yet. Select a company and time, then click "START GENERATE FAKE ODD".
+                    </div>
+                `;
+                return;
+            }
+            
+            resultsList.innerHTML = '';
+            // Show latest 10 results
+            const recentResults = results.slice(-10).reverse();
+            
+            recentResults.forEach(result => {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                item.innerHTML = `
+                    <div class="result-info">
+                        <div class="result-company">${result.companyName}</div>
+                        <div class="result-time">${result.time} · ${result.date}</div>
+                    </div>
+                    <div class="result-odd">${result.odd}x</div>
+                `;
+                resultsList.appendChild(item);
+            });
+        }
+        
+        // Generate random odd with some logic
+        function generateOdd() {
+            // Base odd between 1.2 and 10.0
+            let base = 1.2 + Math.random() * 8.8;
+            
+            // Add some "pattern" to make it seem intelligent
+            const time = new Date();
+            const hour = time.getHours();
+            
+            // Slight variation based on hour (makes it seem like there's a pattern)
+            if (hour >= 6 && hour <= 10) {
+                base *= 1.2; // Higher odds in morning
+            } else if (hour >= 18 && hour <= 22) {
+                base *= 0.8; // Lower odds in evening
+            }
+            
+            // Round to 2 decimal places
+            return Math.max(1.2, Math.min(10.0, parseFloat(base.toFixed(2))));
+        }
+        
+        // Format date
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+        
+        // Format time
+        function formatTime(timeStr) {
+            return timeStr.replace(':', ':');
+        }
+        
+        // Show prediction modal
+        function showPrediction(odd, company, time) {
+            const companyNames = {
+                'sporty': 'Sporty Bet',
+                'betking': 'BetKing',
+                'bet9ja': 'Bet9ja',
+                'nairabet': 'Naira Bet',
+                'betway': 'Betway'
+            };
+            
+            predictedOdd.textContent = `${odd}x`;
+            predictionModal.style.display = 'flex';
+        }
+        
+        // Close modal
+        function closeModal() {
+            predictionModal.style.display = 'none';
+        }
+        
+        // Allow closing modal by clicking outside
+        window.onclick = function(event) {
+            if (event.target === predictionModal) {
+                closeModal();
+            }
+        }
+        
+        // Generate button click
+        generateBtn.addEventListener('click', function() {
+            const company = companySelect.value;
+            const time = timeInput.value;
+            const odd = generateOdd();
+            
+            const companyNames = {
+                'sporty': 'Sporty Bet',
+                'betking': 'BetKing',
+                'bet9ja': 'Bet9ja',
+                'nairabet': 'Naira Bet',
+                'betway': 'Betway'
+            };
+            
+            // Add to results
+            results.unshift({
+                company: company,
+                companyName: companyNames[company],
+                time: formatTime(time),
+                odd: odd,
+                date: formatDate(new Date())
+            });
+            
+            // Keep only last 50 results
+            if (results.length > 50) {
+                results = results.slice(0, 50);
+            }
+            
+            // Save and render
+            saveResults();
+            renderResults();
+            
+            // Show prediction modal
+            showPrediction(odd, company, time);
+        });
+        
+        // Initialize
+        loadResults();
+        renderResults();
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPRIBE Login System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .logo-container {
+            margin-bottom: 40px;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background-image: url('https://placehold.co/60x60/000/fff?text=S');
+            background-size: cover;
+            border-radius: 50%;
+            background-color: transparent;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        
+        .brand-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .slogan {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .loader-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+        
+        .circle-loader {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top: 4px solid #1976d2;
+            animation: rotate 1s linear infinite;
+            opacity: 0.8;
+        }
+        
+        .circle-loader:nth-child(2) {
+            border-top-color: #2196f3;
+            animation-delay: 0.25s;
+            opacity: 0.7;
+        }
+        
+        .circle-loader:nth-child(3) {
+            border-top-color: #4caf50;
+            animation-delay: 0.5s;
+            opacity: 0.6;
+        }
+        
+        .circle-loader:nth-child(4) {
+            border-top-color: #ff9800;
+            animation-delay: 0.75s;
+            opacity: 0.5;
+        }
+        
+        .dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background-color: red;
+            transform: scale(1.2);
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .welcome-message {
+            margin-top: 40px;
+            font-size: 20px;
+            color: #ffffff;
+            line-height: 1.5;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .fade-in {
+            opacity: 1;
+        }
+        
+        .loading-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .fade-in-text {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo-text">POWERED BY</div>
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <div class="brand-name">SPRIBE</div>
+            </div>
+            <div class="slogan">INSIGHTFUL ENTERTAINMENT</div>
+        </div>
+        
+        <div class="loader-container">
+            <div class="circle-loader"></div>
+            <div class="circle-loader"></div>
+            <div class="circle-loader"></div>
+            <div class="circle-loader"></div>
+        </div>
+        
+        <div class="dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        
+        <div class="welcome-message" id="welcomeMessage">
+            Welcome to Aviator Cheat<br>
+            Where you can win lots of games
+        </div>
+        
+        <div class="loading-text" id="loadingText">Redirecting...</div>
+    </div>
+
+    <script>
+        // Simulate user authentication state
+        const isAuthenticated = false; // Change to true when user is logged in
+        
+        // Function to show loader and redirect with animations
+        function redirectToPage() {
+            const dots = document.querySelectorAll('.dot');
+            let dotIndex = 0;
+            
+            // Animate the dots
+            setInterval(() => {
+                dots.forEach((dot, index) => {
+                    dot.classList.remove('active');
+                });
+                dots[dotIndex].classList.add('active');
+                dotIndex = (dotIndex + 1) % dots.length;
+            }, 300);
+            
+            // Show welcome message after a delay
+            setTimeout(() => {
+                const welcomeMessage = document.getElementById('welcomeMessage');
+                welcomeMessage.classList.add('fade-in');
+                
+                // Show loading text
+                const loadingText = document.getElementById('loadingText');
+                loadingText.classList.add('fade-in-text');
+            }, 1000);
+            
+            // Zoom in effect for the loader
+            const loaderContainer = document.querySelector('.loader-container');
+            setTimeout(() => {
+                loaderContainer.style.transform = 'scale(1.2)';
+                loaderContainer.style.transition = 'transform 0.5s ease-out';
+            }, 1500);
+            
+            // Redirect after animation completes
+            setTimeout(() => {
+                if (!isAuthenticated) {
+                    // Redirect to sign up page
+                    window.location.href = "signup.html";
+                } else {
+                    // Redirect to login page
+                    window.location.href = "login.html";
+                }
+            }, 3000);
+        }
+        
+        // Start the redirection process
+        redirectToPage();
+    </script>
+</body>
+</html>

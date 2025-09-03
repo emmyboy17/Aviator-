@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sign Up - Spribe</title>
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            color: white;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-container {
+            width: 320px;
+            padding: 40px;
+            background: #111;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(231, 76, 60, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e74c3c;
+            font-size: 22px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: white;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+
+        button.btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button.primary {
+            background: #e74c3c;
+            color: white;
+        }
+
+        button.google {
+            background: #2d3138;
+            color: white;
+            border: 1px solid #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button.facebook {
+            background: #2d3138;
+            color: white;
+            border: 1px solid #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #666;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: #444;
+        }
+
+        .divider-text {
+            padding: 0 10px;
+            font-size: 14px;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #e74c3c;
+            text-decoration: none;
+        }
+
+        /* --- Modal Popup --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: #111;
+            padding: 30px;
+            border-radius: 12px;
+            width: 300px;
+            text-align: center;
+            border: 1px solid #333;
+            box-shadow: 0 0 30px rgba(231, 76, 60, 0.4);
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        .modal h3 {
+            margin-top: 0;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .modal p {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .modal-btn:hover {
+            background: #c0392b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Google & Facebook Icons (inline SVG) */
+        .google svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .facebook svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Error modal styling */
+        .modal-error h3 {
+            color: #e74c3c;
+        }
+
+        /* Success modal styling */
+        .modal-success h3 {
+            color: #2ecc71;
+        }
+
+        /* Warning modal styling */
+        .modal-warning h3 {
+            color: #f39c12;
+        }
+
+        /* Info modal styling */
+        .modal-info h3 {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Create Account</h2>
+        <form id="signupForm">
+            <div class="input-group">
+                <input type="text" id="name" placeholder="Full Name" required />
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required />
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required />
+            </div>
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+            </div>
+            <div class="input-group">
+                <input type="text" id="cheatCode" placeholder="Enter Aviator Cheat Code" required />
+            </div>
+            <button type="submit" class="btn primary">Sign Up</button>
+        </form>
+
+        <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">or continue with</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- Social Signup Buttons -->
+        <button class="btn google" id="googleSignup">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.49-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            Continue with Google
+        </button>
+
+        <button class="btn facebook" id="facebookSignup">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.983h-1.5c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
+            </svg>
+            Continue with Facebook
+        </button>
+
+        <div class="login-link">
+            Already have an account? <a href="login.html">Log in</a>
+        </div>
+    </div>
+
+    <!-- Password Mismatch Modal -->
+    <div class="modal" id="passwordErrorModal">
+        <div class="modal-content modal-error">
+            <h3>❌ Aviator Cheat App</h3>
+            <p>Your password doesn't match. Please make sure both password fields are identical before proceeding.</p>
+            <button class="modal-btn" onclick="closePasswordErrorModal()">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Invalid Code Modal -->
+    <div class="modal" id="invalidCodeModal">
+        <div class="modal-content modal-error">
+            <h3>❌ Aviator Cheat App</h3>
+            <p>Please purchase your Aviator Cheat Code from our authorized vendor to continue.</p>
+            <p style="font-size: 13px; margin: 10px 0;">Contact our support team for assistance with purchasing a valid code.</p>
+            <button class="modal-btn" onclick="closeInvalidCodeModal()">Understood</button>
+        </div>
+    </div>
+
+    <!-- Device Already Registered Modal -->
+    <div class="modal" id="deviceRegisteredModal">
+        <div class="modal-content modal-warning">
+            <h3>⚠️ Aviator Cheat App</h3>
+            <p>This device is already registered. Only one account is allowed per device for security purposes.</p>
+            <button class="modal-btn" onclick="closeDeviceRegisteredModal()">Got it</button>
+        </div>
+    </div>
+
+    <!-- Empty Fields Modal -->
+    <div class="modal" id="emptyFieldsModal">
+        <div class="modal-content modal-warning">
+            <h3>⚠️ Aviator Cheat App</h3>
+            <p>Please fill in all fields before creating your account. All information is required to proceed.</p>
+            <button class="modal-btn" onclick="closeEmptyFieldsModal()">Okay</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content modal-success">
+            <h3>✅ Aviator Cheat App</h3>
+            <p>Welcome aboard! Your account has been created successfully. Redirecting to your dashboard...</p>
+            <button class="modal-btn" onclick="closeSuccessModal()">Continue</button>
+        </div>
+    </div>
+
+    <!-- Social Login Modal -->
+    <div class="modal" id="socialModal">
+        <div class="modal-content modal-info">
+            <h3>🔔 Aviator Cheat App</h3>
+            <p>Please sign up directly to get started. Social login is not available yet.</p>
+            <button class="modal-btn" onclick="closeSocialModal()">Got it</button>
+        </div>
+    </div>
+
+    <script>
+        // Show popup when Google or Facebook is clicked
+        document.getElementById('googleSignup').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('socialModal').style.display = 'flex';
+        });
+
+        document.getElementById('facebookSignup').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('socialModal').style.display = 'flex';
+        });
+
+        // Close modals
+        function closeSocialModal() {
+            document.getElementById('socialModal').style.display = 'none';
+        }
+
+        function closePasswordErrorModal() {
+            document.getElementById('passwordErrorModal').style.display = 'none';
+        }
+
+        function closeInvalidCodeModal() {
+            document.getElementById('invalidCodeModal').style.display = 'none';
+        }
+
+        function closeDeviceRegisteredModal() {
+            document.getElementById('deviceRegisteredModal').style.display = 'none';
+        }
+
+        function closeEmptyFieldsModal() {
+            document.getElementById('emptyFieldsModal').style.display = 'none';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+            window.location.href = 'loader.html?goto=' + encodeURIComponent('dashboard.html');
+        }
+
+        // Allow closing modals by clicking outside
+        window.onclick = function(event) {
+            const modals = [
+                'socialModal', 'passwordErrorModal', 'invalidCodeModal', 
+                'deviceRegisteredModal', 'emptyFieldsModal', 'successModal'
+            ];
+            
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Handle form signup
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Prevent multiple accounts per device
+            if (localStorage.getItem('spribe_device_id')) {
+                document.getElementById('deviceRegisteredModal').style.display = 'flex';
+                return;
+            }
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            const cheatCode = document.getElementById('cheatCode').value.trim();
+
+            if (!name || !email || !password || !confirm || !cheatCode) {
+                document.getElementById('emptyFieldsModal').style.display = 'flex';
+                return;
+            }
+
+            if (password !== confirm) {
+                document.getElementById('passwordErrorModal').style.display = 'flex';
+                return;
+            }
+
+            // Validate cheat code
+            if (cheatCode.toUpperCase() !== 'EMMYBOY') {
+                document.getElementById('invalidCodeModal').style.display = 'flex';
+                return;
+            }
+
+            // Create device ID and save user
+            const deviceId = 'dev_' + Date.now();
+            localStorage.setItem('spribe_device_id', deviceId);
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('loginTimestamp', Date.now());
+            localStorage.setItem('aviatorCheatCode', cheatCode);
+
+            // Show success modal
+            document.getElementById('successModal').style.display = 'flex';
+        });
+    </script>
+</body>
+</html>
